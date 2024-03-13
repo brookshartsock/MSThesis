@@ -1,0 +1,2 @@
+Input (directory):/home/bhartsock/Desktop/SiPM_data/InBetaTest/data
+Output (file):outInBetaTestData.csv
