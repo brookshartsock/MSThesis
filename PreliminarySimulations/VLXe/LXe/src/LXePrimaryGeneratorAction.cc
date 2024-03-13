@@ -1,0 +1,230 @@
+//
+// ********************************************************************
+// * License and Disclaimer                                           *
+// *                                                                  *
+// * The  Geant4 software  is  copyright of the Copyright Holders  of *
+// * the Geant4 Collaboration.  It is provided  under  the terms  and *
+// * conditions of the Geant4 Software License,  included in the file *
+// * LICENSE and available at  http://cern.ch/geant4/license .  These *
+// * include a list of copyright holders.                             *
+// *                                                                  *
+// * Neither the authors of this software system, nor their employing *
+// * institutes,nor the agencies providing financial support for this *
+// * work  make  any representation or  warranty, express or implied, *
+// * regarding  this  software system or assume any liability for its *
+// * use.  Please see the license in the file  LICENSE  and URL above *
+// * for the full disclaimer and the limitation of liability.         *
+// *                                                                  *
+// * This  code  implementation is the result of  the  scientific and *
+// * technical work of the GEANT4 collaboration.                      *
+// * By using,  copying,  modifying or  distributing the software (or *
+// * any work based  on the software)  you  agree  to acknowledge its *
+// * use  in  resulting  scientific  publications,  and indicate your *
+// * acceptance of all terms of the Geant4 Software license.          *
+// ********************************************************************
+//
+// $Id$
+//
+/// \file optical/LXe/src/LXePrimaryGeneratorAction.cc
+/// \brief Implementation of the LXePrimaryGeneratorAction class
+//
+//
+#include "LXePrimaryGeneratorAction.hh"
+
+#include "G4Event.hh"
+#include "G4ParticleGun.hh"
+#include "G4ParticleTable.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4SystemOfUnits.hh"
+#include "globals.hh"
+
+#include "Randomize.hh"
+#include "LXeDetectorConstruction.hh"
+
+#include <iomanip>
+
+//std::string PGAData;
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+LXePrimaryGeneratorAction::LXePrimaryGeneratorAction(){
+
+  G4int n_particle = 1;
+  fParticleGun = new G4ParticleGun(n_particle);
+
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+ 
+  G4String particleName;
+  fParticleGun->SetParticleDefinition(particleTable->
+  FindParticle(particleName="e-"));
+
+  srand(time(NULL));
+
+  /*
+  G4int cubeNum = 6, i, j, k;
+  G4double voxelDim = 7., voxelThicc = 1., voxelSpace = 2.;
+
+  G4double fExpHall_x = (cubeNum * voxelThicc) + ((cubeNum + 1) * voxelSpace);
+  G4double fExpHall_y = (cubeNum * voxelDim) + ((cubeNum + 1) * voxelSpace) 
+    + (((cubeNum-1)/2.) * voxelDim);
+  G4double fExpHall_z = (cubeNum * voxelDim) + ((cubeNum + 1) * voxelSpace) 
+    + (((cubeNum-1)/2.) * voxelDim);
+
+  G4int n_particle = 1;
+  fParticleGun = new G4ParticleGun(n_particle);
+ 
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+ 
+  G4String particleName;
+  fParticleGun->SetParticleDefinition(particleTable->
+  FindParticle(particleName="e-"));
+
+  srand(time(NULL));
+
+  std::cin.ignore();
+
+  i = rand()%cubeNum;
+  j = rand()%cubeNum;
+  k = rand()%cubeNum;
+
+  G4double ipos = -(fExpHall_x/2.) + voxelSpace + (voxelThicc/2.) 
+         + (i * (voxelThicc+voxelSpace));
+  G4double jpos = -(fExpHall_y/2.) + voxelSpace + (voxelDim/2.) 
+         + (j * (voxelDim+voxelSpace)) + (i * (voxelDim/2.));
+  G4double kpos = -(fExpHall_z/2.) + voxelSpace + (voxelDim/2.) 
+         + (k * (voxelDim+voxelSpace)) + (i * (voxelDim/2.));
+
+  ipos += voxelThicc * ((double)rand()/RAND_MAX - 0.5);
+  jpos += voxelDim * ((double)rand()/RAND_MAX - 0.5);
+  kpos += voxelDim * ((double)rand()/RAND_MAX - 0.5);
+
+  G4double imo = ((double)rand()/RAND_MAX - 0.5);
+  G4double jmo = ((double)rand()/RAND_MAX - 0.5);
+  G4double kmo = ((double)rand()/RAND_MAX - 0.5);
+
+  imo = 1;
+  jmo = 0;
+  kmo = 0;*/
+
+  /*
+  std::fstream outfile;
+  outfile.open("posdata.csv", std::fstream::in | std::fstream::out 
+	       | std::fstream::app);
+  outfile << ipos << "," << jpos << "," << kpos << "\n";
+  outfile.close();*/
+
+  //Default energy,position,momentum
+  /*
+  fParticleGun->SetParticleEnergy(6.*MeV);
+  fParticleGun->SetParticlePosition(G4ThreeVector(ipos, jpos, kpos));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(imo,jmo,kmo));*/
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+LXePrimaryGeneratorAction::~LXePrimaryGeneratorAction(){
+    delete fParticleGun;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void LXePrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
+
+  G4int i, j, k;
+  LXeDetectorConstruction::voxelSpecifics PrimaryGeneratorAction;
+
+  G4double voxelDim = PrimaryGeneratorAction.voxelDim;
+  G4double voxelThicc = PrimaryGeneratorAction.voxelThicc;
+  G4double voxelSpace = PrimaryGeneratorAction.voxelSpace;
+  G4int cubeNum = PrimaryGeneratorAction.voxelNum;
+  bool orientation = PrimaryGeneratorAction.inlin3;
+
+  G4double fExpHall_x;
+  G4double fExpHall_y;
+  G4double fExpHall_z;
+
+  if(orientation){
+    fExpHall_x = (cubeNum * voxelThicc)+((cubeNum + 1)*voxelSpace);
+    fExpHall_y = (cubeNum * voxelDim)+((cubeNum + 1)*voxelSpace);
+    fExpHall_z = (cubeNum * voxelDim)+((cubeNum + 1)*voxelSpace);
+  }
+  else{
+    fExpHall_x = (cubeNum * voxelThicc) + ((cubeNum + 1) * voxelSpace);
+    fExpHall_y = (cubeNum * voxelDim) + ((cubeNum + 1) * voxelSpace)
+      + (((cubeNum-1)/2.) * (voxelDim+voxelSpace));
+    fExpHall_z = (cubeNum * voxelDim) + ((cubeNum + 1) * voxelSpace)
+      + (((cubeNum-1)/2.) * (voxelDim+voxelSpace));
+  }
+
+  //G4int n_particle = 1;
+  //fParticleGun = new G4ParticleGun(n_particle);
+ 
+  //srand(time(NULL));
+
+  //std::cin.ignore();
+
+  i = rand()%cubeNum;
+  j = rand()%cubeNum;
+  k = rand()%cubeNum;
+
+  G4double ipos, jpos, kpos;
+  
+  if(orientation){
+    ipos = -(fExpHall_x/2.) + voxelSpace + (voxelThicc/2.) 
+      + (i * (voxelThicc+voxelSpace));
+    jpos = -(fExpHall_y/2.) + voxelSpace + (voxelDim/2.) 
+      + (j * (voxelDim+voxelSpace));
+    kpos = -(fExpHall_z/2.) + voxelSpace + (voxelDim/2.) 
+      + (k * (voxelDim+voxelSpace));
+  }
+  else{
+    ipos = -(fExpHall_x/2.) + voxelSpace + (voxelThicc/2.) 
+      + (i * (voxelThicc+voxelSpace));
+    jpos = -(fExpHall_y/2.) + voxelSpace + (voxelDim/2.) 
+      + (j * (voxelDim+voxelSpace)) 
+      + (i * ((voxelDim+voxelSpace)/2.));
+    kpos = -(fExpHall_z/2.) + voxelSpace + (voxelDim/2.) 
+      + (k * (voxelDim+voxelSpace))
+      + (i * ((voxelDim+voxelSpace)/2.));
+  }
+
+  ipos += voxelThicc * ((double)rand()/RAND_MAX - 0.5);
+  jpos += voxelDim * ((double)rand()/RAND_MAX - 0.5);
+  kpos += voxelDim * ((double)rand()/RAND_MAX - 0.5);
+
+  double theta = 2*M_PI*((double)std::rand()/RAND_MAX); //(0,2pi)
+  double phi = 2*(((double)std::rand()/RAND_MAX) - .5); //(-1,1)
+  phi = acos(phi); //lol this is math notation 
+
+  G4double imo = cos(theta)*sin(phi);
+  G4double jmo = sin(theta)*sin(phi);
+  G4double kmo = cos(phi);
+
+  /*
+    imo = 1;
+    jmo = 1.1667;
+    kmo = 1.1667;*/
+
+  G4double priEnergy = 10.* ((double)std::rand()/RAND_MAX) * MeV;
+
+  std::fstream outfile;
+  outfile.open("data.csv", std::fstream::in | std::fstream::out 
+	       | std::fstream::app);
+  outfile << imo << "," << jmo << "," << kmo << "," << priEnergy << ",";
+  outfile.close();
+
+  //Default energy,position,momentum
+  fParticleGun->SetParticleEnergy(priEnergy);
+  fParticleGun->SetParticlePosition(G4ThreeVector(ipos, jpos, kpos));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(imo,jmo,kmo));
+
+  fParticleGun->GeneratePrimaryVertex(anEvent);
+}
+
+/*
+ipos[n] = -(fExpHall_x/2.) + voxelSpace + (voxelThicc/2.) + (i * (voxelThicc+voxelSpace));
+        jpos[n] = -(fExpHall_y/2.) + voxelSpace + (voxelDim/2.) + (j * (voxelDim+voxelSpace))
+            + (i * (voxelDim/2.));
+        kpos[n] = -(fExpHall_z/2.) + voxelSpace + (voxelDim/2.) + (k * (voxelDim+voxelSpace))
+            + (i * (voxelDim/2.));
+ */
