@@ -13,3 +13,13 @@ The plate style voxel detector is from VLXe which is based on LXe
 The one made of 1x1x10 pillars is hodoscope, again based on LXe
 
 The anti-nu detector is just based on the hodoscope, but the rotation is turned off
+
+Neutron-Electron Angle and average range plots were made on RStudio with something like this:
+
+x = data$Energy..MeV.
+y = data$Range..mm.
+z = data$rms..mm.
+
+plot(x, y, pch = 20, main = "Average Range for Electrons GAGG:Ce",
+     xlab = "Energy (MeV)", ylab = "Range (mm)", ylim = c(0, 18), log = 'x')
+arrows(x, y + z, x, y - z, length = 0.02, angle = 90, code = 3)
