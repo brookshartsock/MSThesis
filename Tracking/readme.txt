@@ -62,3 +62,19 @@ To track with the lookup list use lListVLXe.cc (you must have a list already) wi
 For DSDR tracking use DSDRLinRegVLXe.cc or hodoscopeLinReg.cc has an option to toggle this
 
 2DHistgrams are made from 2DHistograms.cc
+
+Analysis of algorithm porformance is mostly from RStudio though:
+fdata = data[data$slopeY > -11 & data$slopeY < 15 & data$slopeZ > -11 & data$slopeZ < 15,]
+
+normE = sqrt(1 + fdata$estSlopeY^2 + fdata$estSlopeZ^2)
+normA = sqrt(1 + fdata$slopeY^2 + fdata$slopeZ^2)
+dotP = acos((fdata$slopeY*fdata$estSlopeY)/(normA*normE) + (fdata$slopeZ*fdata$estSlopeZ)/(normA*normE) + 1/(normA*normE))
+
+mean(dotP)
+sd(dotP)
+
+mean(fdata$estSlopeY-fdata$slopeY)
+sd(fdata$estSlopeY-fdata$slopeY)
+
+mean(fdata$estSlopeZ-fdata$slopeZ)
+sd(fdata$estSlopeZ-fdata$slopeZ)
