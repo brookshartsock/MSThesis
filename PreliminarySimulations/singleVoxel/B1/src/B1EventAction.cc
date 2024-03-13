@@ -1,0 +1,99 @@
+//
+// ********************************************************************
+// * License and Disclaimer                                           *
+// *                                                                  *
+// * The  Geant4 software  is  copyright of the Copyright Holders  of *
+// * the Geant4 Collaboration.  It is provided  under  the terms  and *
+// * conditions of the Geant4 Software License,  included in the file *
+// * LICENSE and available at  http://cern.ch/geant4/license .  These *
+// * include a list of copyright holders.                             *
+// *                                                                  *
+// * Neither the authors of this software system, nor their employing *
+// * institutes,nor the agencies providing financial support for this *
+// * work  make  any representation or  warranty, express or implied, *
+// * regarding  this  software system or assume any liability for its *
+// * use.  Please see the license in the file  LICENSE  and URL above *
+// * for the full disclaimer and the limitation of liability.         *
+// *                                                                  *
+// * This  code  implementation is the result of  the  scientific and *
+// * technical work of the GEANT4 collaboration.                      *
+// * By using,  copying,  modifying or  distributing the software (or *
+// * any work based  on the software)  you  agree  to acknowledge its *
+// * use  in  resulting  scientific  publications,  and indicate your *
+// * acceptance of all terms of the Geant4 Software license.          *
+// ********************************************************************
+//
+// $Id$
+//
+/// \file B1EventAction.cc
+/// \brief Implementation of the B1EventAction class
+
+#include "B1EventAction.hh"
+#include "B1RunAction.hh"
+#include "B1PrimaryGeneratorAction.hh"
+
+#include "G4Event.hh"
+#include "G4RunManager.hh"
+
+#include <iomanip>
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+B1EventAction::B1EventAction(B1RunAction* runAction)
+  : G4UserEventAction(),
+    fRunAction(runAction),
+    fEdep(0.)
+{} 
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+B1EventAction::~B1EventAction()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B1EventAction::BeginOfEventAction(const G4Event*)
+{    
+  fEdep = 0.;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B1EventAction::EndOfEventAction(const G4Event*){
+
+  
+  // accumulate statistics in run action
+  fRunAction->AddEdep(fEdep);
+
+  const B1PrimaryGeneratorAction* generatorAction
+   = static_cast<const B1PrimaryGeneratorAction*>
+     (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
+  G4String runCondition;
+
+  if (generatorAction){
+  const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
+  G4double particleEnergy = particleGun->GetParticleEnergy();
+
+  //this threshold is set based on the energy resolution of GAGG
+  //which is around 10%
+  G4double EdepThreshold = .10*particleEnergy;//MeV 
+
+  if(fEdep >= EdepThreshold){
+
+    //this calls the AddFullEnergyDeposit function, adding one event
+    //to the total so we can find the % later in run action
+    fRunAction->AddFullEnergyDeposit();
+
+    /*
+    std::fstream outfile;
+    outfile.open("edep.csv", std::fstream::in | std::fstream::out 
+		 | std::fstream::app);
+    outfile << fEdep << "\n";
+    outfile.close();*/
+    }
+  
+  }
+
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
