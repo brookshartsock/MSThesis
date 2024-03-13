@@ -84,3 +84,4 @@ ggplot(data_joined, aes(x = Energy, y = Peak, color = Substance, group = Substan
   scale_shape_manual(values = c(1, 2, 3, 4, 5, 6)) + # Manual shapes
   scale_linetype_manual(values = c(1, 2, 3, 4, 5, 6))
 
+Some of these files take peakIn.txt as an argument. Sometimes it's useful to run these in batches too with batch.bash
