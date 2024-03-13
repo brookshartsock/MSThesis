@@ -1,2 +1,2 @@
-# MSThesis
-Collection of documented code used for my thesis.
+MSThesis
+Collection of documented code used for my thesis: link doesn't exists yet...
