@@ -15,6 +15,7 @@ double isotopeData[nElements][nIsotopes][2] = {0.};
 std::map<std::string, int> elementIndex;
 
 
+//written with the help of GPT4
 void readFillIsotopeData(){
 
   
