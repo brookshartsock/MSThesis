@@ -14,6 +14,7 @@ float **momentum;
 const int cubeNum = 6;
 
 
+//written with the help of GPT4
 bool readStoreData(std::string filename){
 
 
@@ -200,6 +201,7 @@ std::string E2IDNo(int run, const int hits){
 }
 
 
+//written with the help of GPT4
 void lookupList(std::string ID, int run) {
 
 
