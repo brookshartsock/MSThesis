@@ -24,6 +24,7 @@ struct peakData{
 };
 
 
+//written with the help of GPT4
 bool readStoreData(const std::string& filename) {
   std::ifstream file(filename.c_str());
   std::string line;
