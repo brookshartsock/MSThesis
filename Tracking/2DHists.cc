@@ -16,6 +16,7 @@ std::vector<double> energy, slopeY, slopeZ, estSlopeY, estSlopeZ;
 int rows;
 
 
+//written with the help of GPT4
 bool readStoreData(const std::string& filename) {
 
 
@@ -75,6 +76,7 @@ void displayData(){
 }
 
 
+//written with the help of GPT4
 void makeHistogram(){
 
 
