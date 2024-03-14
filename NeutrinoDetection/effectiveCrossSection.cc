@@ -9,6 +9,7 @@ double energy[arraySize];
 double flux[arraySize];
 
 
+//written with help of GPT4
 bool readStoreData(const std::string& filePath){
 
   
