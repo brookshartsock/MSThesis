@@ -25,6 +25,7 @@ double sdValue[bins] = {0};
 int eventsPerBin[bins] = {0};
 
 
+//written with the help of GPT4
 bool readStoreData(std::string filename){
 
   
