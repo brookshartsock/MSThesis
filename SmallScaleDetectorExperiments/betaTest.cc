@@ -24,6 +24,7 @@ int peakIndexEst; //index no. of where the peak of ch2 is
 int peakRange = 75;
 
 
+//written with the help of GPT4
 bool readStoreData(const std::string& filename) {
 
   
