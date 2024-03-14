@@ -16,6 +16,8 @@ std::vector<double> energy;
 std::vector<double> voltage;
 std::vector<double> voltageE;
 
+
+////written with the help of GPT4
 void readStoreData(const std::string& filename) {
     std::ifstream inputFile(filename);
     if (!inputFile) {
@@ -54,6 +56,8 @@ void readStoreData(const std::string& filename) {
     }
 }
 
+
+//written with the help of GPT4
 void plotDataWithLinearFit(const std::string& outputFilename) {
     int nPoints = energy.size();
 
@@ -126,6 +130,7 @@ void plotDataWithLinearFit(const std::string& outputFilename) {
 }
 
 
+//written with the help of GPT4
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <filename_prefix>" << std::endl;
