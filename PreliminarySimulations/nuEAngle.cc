@@ -70,6 +70,7 @@ double momentumGuesser(double uNu){
 }
 
 
+//written with the help of Jonathan Folkerts
 //computes Lorentz boost and returns dot product of nu/e vecs
 double boost(double energyNu, double pe){
 
