@@ -13,6 +13,8 @@ int data[ROWS][COLS];
 float momentum[ROWS][3];
 float energy[ROWS];
 
+
+//written with the help of GPT4
 bool readStoreData(std::string filename) {
   std::ifstream infile(filename.c_str());
   std::string line;
