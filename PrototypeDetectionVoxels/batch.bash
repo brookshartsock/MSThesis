@@ -1,3 +1,4 @@
+#written with the help of GPT4
 input_directories=(
   "/home/bhartsock/Desktop/pTube_data/FD/Na-22"
   "/home/bhartsock/Desktop/pTube_data/FD/Cs-137"
