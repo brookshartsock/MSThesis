@@ -10,6 +10,9 @@
 #include "TF1.h"
 #include <TStyle.h>
 
+
+//written with the help of Jonathan Folkerts
+//this function allows you to splice two fits together at par[5]
 double fitf(double *x,double *par) {
 
   
@@ -27,6 +30,7 @@ double fitf(double *x,double *par) {
 }
 
 
+//written with the help of GPT4
 int main() {
   // File path
   std::string filePath = "IBDXSec.csv";
