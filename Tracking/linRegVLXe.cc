@@ -21,6 +21,7 @@ int nanStatus = 0;
 double RSQO = 1e-6; //r-squared offset (to help prevent NANs?)
 
 
+//written with the help of GPT4
 bool readStoreData(std::string filename) {
 
   
