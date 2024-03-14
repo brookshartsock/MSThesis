@@ -15,6 +15,7 @@ float momentum[ROWS][3]; //0,1,2 -> i,j,k
 float energy[ROWS];
 
 
+//written with the help of GPT4
 bool readStoreData(std::string filename) {
 
   
